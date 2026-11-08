@@ -11,7 +11,6 @@ test('standalone resources work beneath a GitHub project path', async () => {
   assert.doesNotMatch(html, /(?:src|href)="\/(?!\/)/);
   assert.doesNotMatch(css, /url\(['"]?\//);
   assert.doesNotMatch(css, /@import ['"]tailwindcss/);
-  assert.doesNotMatch(html, /\/api\/rsvp/);
   const resources = [...html.matchAll(/(?:src|href)="(\.\/[^"#]+)"/g)].map(match => match[1]);
   for (const resource of resources) await access(resolve(root, resource));
   await access(resolve(root, '.nojekyll'));
