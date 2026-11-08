@@ -110,6 +110,7 @@ h2 em{color:var(--wine)}
 .venue-arch>svg:last-child{width:100%;margin:30px auto 0}
 .venue-sprig{position:absolute;left:-35px;bottom:-35px;width:155px;color:#77896e;transform:rotate(-30deg)}
 .venue-copy>.eyebrow{color:var(--muted);margin-bottom:20px}
+.venue-copy h2{font-size:clamp(40px,4.8vw,58px)}
 .venue-copy>p:not(.eyebrow){font-size:14px;line-height:1.8;margin-top:22px}
 .venue-copy address{font-style:normal;font-size:12px;line-height:1.9;color:var(--muted);margin:10px 0 23px}
 .text-link{display:inline-flex;align-items:center;gap:40px;border:0;border-bottom:1px solid var(--wine);background:none;padding:8px 0;color:var(--wine);font-size:12px}

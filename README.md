@@ -22,7 +22,9 @@ No npm installation or build step is required. Use Live Server instead of openin
 - `settings.js`: wedding date used by the countdown.
 - `assets/`: palace artwork, couple illustration, and favicon.
 
-Wedding: Prateek Singh & Vidhi Singh, 1 March 2027, Govind Dham Resort, Prayagraj. Ceremony time remains “Ceremony time to follow.”
+Wedding: Prateek Singh & Vidhi Singh, 1 March 2027, The Countryside Resort, Prayagraj. Ceremony time remains “Ceremony time to follow.”
+
+Venue address: 148, Nasirapur Jhusi, Andawa, Prayagraj, Uttar Pradesh 221505, India. The directions button uses the Maps link published on the [venue's listing](https://solo.to/countrysideprayag).
 
 ## Publish updates
 
