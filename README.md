@@ -1,10 +1,10 @@
-# Prateek & Vidhi — wedding invitation
+# Prateek Vidhi Wedding Invitation
 
 A tap-to-open wedding invitation with animated doors, personalized couple artwork, a wedding countdown, venue details, and directions. The site has no forms or guest-data storage.
 
-Website: https://shashwatsing.github.io/Wedding_bhaiya/
+Website: https://shashwatsing.github.io/Prateek-Vidhi-Wedding-Invitation/
 
-Repository: https://github.com/shashwatsing/Wedding_bhaiya
+Repository: https://github.com/shashwatsing/Prateek-Vidhi-Wedding-Invitation
 
 ## Preview locally
 
