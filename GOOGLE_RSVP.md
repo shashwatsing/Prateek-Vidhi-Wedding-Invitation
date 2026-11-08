@@ -6,7 +6,27 @@ Recommended arrangement:
 
 Google Forms provides submission handling and the confirmation screen. The RSVP area uses Google’s own form styling. The custom door animation, portraits, wedding details, and directions stay as they are. No Apps Script deployment or secret browser key is needed for this option.
 
-## Quick setup: create the form and Sheet together
+## Set up the blank form you already created
+
+Your current responder link is https://forms.gle/z28YHsrQX9MKb6Fv5. It currently opens an untitled form with Google's starter question. Keep RSVP closed on the invitation until the wedding questions are ready.
+
+1. Open that form from [Google Forms](https://forms.google.com) in **editing mode**, using the account that owns it.
+2. In the form editor, choose **More (three dots) → Apps Script**.
+3. Replace the example code in `Code.gs` with [setup/create-google-rsvp.gs](./setup/create-google-rsvp.gs).
+4. Save, select **createWeddingRsvp**, then click **Run**. Complete Google's authorization prompt yourself.
+5. Return to the form editor and refresh. The script fills in the wedding details, adds the RSVP questions, reuses the untouched starter question, and creates or reuses a linked response Sheet.
+6. Review/publish the form with responder access for **Anyone with the link**. Keep the Sheet private, and leave **Limit to 1 response** and **View results summary** off.
+7. Test one RSVP in a signed-out/private browser window and confirm the row appears in the response Sheet. Then the responder link can be connected to the invitation.
+
+Run the script from the form's own **Apps Script** menu to use this existing form. Opening a separate script project will create a different form.
+
+Full responder URL, for connecting after setup:
+
+```text
+https://docs.google.com/forms/d/e/1FAIpQLSfuakTW1kegGtd_JqsysRevkk8D5BXd_G0_ngxDkEBleAj3hw/viewform
+```
+
+## Alternative: create a new form and Sheet together
 
 The optional [setup script](./setup/create-google-rsvp.gs) creates both files in your Google account. This is a one-time setup helper; RSVP submissions go directly through Google Forms, without a deployed script backend.
 
@@ -18,7 +38,7 @@ The optional [setup script](./setup/create-google-rsvp.gs) creates both files in
 6. Test the responder link in a signed-out/private browser window. Submit an identifiable test RSVP and check that it appears in the Sheet.
 7. Send the full **RESPONDER LINK** to connect the invitation, or paste it into `googleFormUrl` in `settings.js`.
 
-The script is prepared but has not been run in your account. It creates a draft form; publishing it is a separate step. Re-running it in the same Apps Script project reuses the existing form and Sheet. If an account policy or authorization screen blocks you, use the manual steps below instead.
+The script is prepared but has not been run in your account. In a standalone project it creates a draft form; publishing it is a separate step. Re-running it in the same Apps Script project reuses the existing form and Sheet. If an account policy or authorization screen blocks you, use the manual steps below instead.
 
 ## 1. Create the form
 

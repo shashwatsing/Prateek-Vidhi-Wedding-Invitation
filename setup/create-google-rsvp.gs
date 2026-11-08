@@ -1,6 +1,8 @@
 /**
- * Run once in your own Google Apps Script project at https://script.google.com/.
- * Creates a draft Google Form and a linked response spreadsheet in your account.
+ * To use an existing form: open its editor, choose More > Apps Script, paste
+ * this code there, then run createWeddingRsvp. The bound form is used first.
+ * A standalone Apps Script project creates a new draft form instead.
+ * Creates or reuses a linked response spreadsheet in your account.
  * Review the form, then publish it for anyone with the link.
  * No emails are sent. No guest responses or access keys belong in this file.
  * Re-running in the SAME Apps Script project reuses the saved form and sheet.
@@ -10,19 +12,24 @@ function createWeddingRsvp() {
   lock.waitLock(30000);
   try {
     const saved = PropertiesService.getScriptProperties();
-    let formId = saved.getProperty('WEDDING_FORM_ID');
-    const form = formId
+    const activeForm = FormApp.getActiveForm();
+    const formId = saved.getProperty('WEDDING_FORM_ID');
+    if (activeForm && formId && formId !== activeForm.getId()) {
+      throw new Error('This script was already used for a different form. Open Apps Script from the intended form and use a fresh project.');
+    }
+    const form = activeForm || (formId
       ? FormApp.openById(formId)
-      : FormApp.create('Prateek & Vidhi — Wedding RSVP', false);
+      : FormApp.create('Prateek & Vidhi — Wedding RSVP', false));
     if (!formId) saved.setProperty('WEDDING_FORM_ID', form.getId());
 
-    let sheetId = saved.getProperty('WEDDING_SHEET_ID');
+    const sheetId = saved.getProperty('WEDDING_SHEET_ID') || form.getDestinationId();
     const sheet = sheetId
       ? SpreadsheetApp.openById(sheetId)
       : SpreadsheetApp.create('Prateek & Vidhi — Guest RSVPs');
-    if (!sheetId) saved.setProperty('WEDDING_SHEET_ID', sheet.getId());
+    saved.setProperty('WEDDING_SHEET_ID', sheet.getId());
 
     if (saved.getProperty('WEDDING_SETUP_COMPLETE') !== 'yes') {
+      form.setTitle('Prateek & Vidhi — Wedding RSVP');
       form.setDescription(
         'With our families, we invite you to celebrate the wedding of Prateek Singh and Vidhi Singh.\n\n' +
         'Monday, 1 March 2027\nGovind Dham Resort, Prayagraj\n' +
@@ -39,6 +46,20 @@ function createWeddingRsvp() {
       form.setShowLinkToRespondAgain(false);
       form.setShuffleQuestions(false);
 
+      // Turn Google's untouched starter question into the attendance question.
+      // Existing custom questions are kept, and no response data is deleted.
+      let starter = null;
+      const initialItems = form.getItems();
+      if (initialItems.length === 1 && initialItems[0].getType() === FormApp.ItemType.MULTIPLE_CHOICE) {
+        const item = initialItems[0].asMultipleChoiceItem();
+        const choices = item.getChoices();
+        if (item.getTitle() === 'Untitled Question' && choices.length === 1 && choices[0].getValue() === 'Option 1' && form.getResponses().length === 0) {
+          starter = item;
+          starter.setTitle('Will you attend?').setRequired(true)
+            .setChoiceValues(['Joyfully accepts', 'Regretfully declines']);
+        }
+      }
+
       // Reuse any questions created before an interrupted setup.
       const titles = new Set(form.getItems().map(function (item) { return item.getTitle(); }));
       if (!titles.has('Your full name')) {
@@ -54,6 +75,7 @@ function createWeddingRsvp() {
         form.addMultipleChoiceItem().setTitle('Will you attend?').setRequired(true)
           .setChoiceValues(['Joyfully accepts', 'Regretfully declines']);
       }
+      if (starter) form.moveItem(starter.getIndex(), 2);
       if (!titles.has('Number of guests, including you')) {
         form.addListItem().setTitle('Number of guests, including you').setRequired(true)
           .setHelpText('Choose 0 if you are unable to attend.')
