@@ -1,6 +1,6 @@
 # Prateek Vidhi Wedding Invitation
 
-A tap-to-open wedding invitation with animated doors, personalized couple artwork, a wedding countdown, venue details, and directions. The site has no forms or guest-data storage.
+A tap-to-open wedding invitation with animated doors, personalized couple artwork, background music, a wedding countdown, venue details, and directions. The site has no forms or guest-data storage.
 
 Website: https://shashwatsing.github.io/Prateek-Vidhi-Wedding-Invitation/
 
@@ -14,13 +14,22 @@ Repository: https://github.com/shashwatsing/Prateek-Vidhi-Wedding-Invitation
 
 No npm installation or build step is required. Use Live Server instead of opening the HTML file directly, because the page uses JavaScript modules. Google Fonts load when online; local fonts are used as fallbacks.
 
+## Music
+
+The song starts when a guest taps to open the invitation. A floating Play/Pause button stays available while they browse. If a browser blocks playback, the button lets them start it directly. The song loops while the invitation is open.
+
+`assets/wedding-song.mp3` is a website copy of the supplied MP3 with the first **20 seconds removed**. Playback and each loop therefore start at the original song's 0:20 mark. The original file in Downloads is unchanged.
+
+Reopening the cover stops and resets the song. A guest's choice to pause is remembered while the page remains open.
+
 ## Edit the invitation
 
 - `index.html`: names, wording, displayed date, venue, and directions.
 - `styles.css`: colors, layout, opening doors, and animations.
 - `app.js`: opening/replay controls and countdown.
+- `music.js`: music playback, pause/resume, and browser playback feedback.
 - `settings.js`: wedding date used by the countdown.
-- `assets/`: palace artwork, couple illustration, and favicon.
+- `assets/`: palace artwork, couple illustration, favicon, and trimmed music.
 
 Wedding: Prateek Singh & Vidhi Singh, 1 March 2027, The Countryside Resort, Prayagraj. Ceremony time remains “Ceremony time to follow.”
 
@@ -34,4 +43,4 @@ Only the active artwork files are published. Local artwork notes and unused port
 
 ## Check the files
 
-If Node.js is installed, run `npm test`. The check verifies the local resource paths used on GitHub Pages. No dependencies are needed.
+If Node.js is installed, run `npm test`. The checks cover local resource paths and music controls, including failed playback and cancelled requests. No dependencies are needed.

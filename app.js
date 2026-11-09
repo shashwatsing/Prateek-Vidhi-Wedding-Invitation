@@ -1,10 +1,15 @@
 import { settings } from './settings.js';
+import { createInvitationMusic } from './music.js';
 
 const cover = document.querySelector('.cover');
 const invitation = document.querySelector('.invitation');
 const openButton = document.querySelector('.open-invitation');
 const replayButton = document.querySelector('footer button');
 const heroTitle = document.querySelector('.hero h1');
+const music = createInvitationMusic(
+  document.querySelector('#wedding-music'),
+  document.querySelector('#music-controls'),
+);
 let opening = false;
 heroTitle.tabIndex = -1;
 document.body.style.overflow = 'hidden';
@@ -13,6 +18,8 @@ openButton.addEventListener('click', () => {
   if (opening) return;
   opening = true;
   openButton.disabled = true;
+  // Start within the tap gesture, before the opening animation or any timer.
+  void music.open();
   cover.classList.add('is-opening');
   invitation.classList.add('revealed');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -26,6 +33,7 @@ openButton.addEventListener('click', () => {
 });
 
 replayButton.addEventListener('click', () => {
+  music.close();
   window.scrollTo({ top: 0, behavior: 'instant' });
   opening = false;
   openButton.disabled = false;
